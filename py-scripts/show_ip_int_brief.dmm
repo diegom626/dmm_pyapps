@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+show_ip_int_brief = '''
+Interface       IP-Address  OK? Method  Status  Protocol
+FastEthernet0   unassigned  YES unset   up      up
+FastEthernet1   unassigned  YES unset   up      up
+FastEthernet2   unassigned  YES unset   down    down
+FastEthernet3   unassigned  YES unset   up      up
+FastEthernet4   6.9.4.10    YES NVRAM   up      up
+NVI0            6.9.4.10    YES unset   up      up
+Tunnel1         16.25.253.2 YES NVRAM   up      down
+Tunnel2         16.25.253.6 YES NVRAM   up      down
+Vlan1           unassigned  YES NVRAM   down    down
+Vlan10          10.220.88.1 YES NVRAM   up      up
+Vlan20          192.168.0.1 YES NVRAM   down    down
+Vlan100         10.220.84.1 YES NVRAM   up      up
+'''
+assign_list = []
+lineas = show_ip_int_brief.split("\n")
+print "%-15s %-15s %-15s %-15s\n" % ("INTERFACE", "IP ADDRESS", "STATUS", "PROTOCOL")
+for i in lineas:
+    if i == 'Interface':
+        continue
+    split_i = i.split()
+    if len(split_i) == 6:
+        int, ip_addr, ok, method, status_ql, protocol = split_i
+        if (status_ql == 'up') and (protocol == 'up'):
+            assign_list.append((int, ip_addr, status_ql, protocol))
+
+for tuples in assign_list:
+   print "%-15s %-15s %-15s %-15s" % (tuples)
+print "\n"

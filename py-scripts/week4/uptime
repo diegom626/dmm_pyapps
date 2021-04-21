@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+uptime1 = 'twb-sf-881 uptime is 6 weeks, 4 days, 2 hours, 25 minutes'
+uptime2 = '3750RJ uptime is 1 hour, 29 minutes'
+uptime3 = 'CATS3560 uptime is 8 weeks, 4 days, 18 hours, 16 minutes'
+uptime4 = 'rtr1 uptime is 5 years, 18 weeks, 8 hours, 23 minutes'
+
+dict_device = {}
+for var in (uptime1,uptime2,uptime3,uptime4):
+    uptime_fields = var.split(',')
+    print uptime_fields[0].split('uptime is')
+    (hostname, time) = uptime_fields[0].split('uptime is')
+    #Se añade la variable time como primer indice de la lista
+    uptime_fields[0] = time
+    #evaluar indices con loop
+    segundos = 0
+    for tiempo in uptime_fields:
+        if 'week' in tiempo:
+            (numero, chao) = tiempo.split()
+            segundos += int(numero)*60*60*24*7
+        elif 'day' in tiempo:
+            (numero, chao) = tiempo.split()
+            segundos += int(numero)*60*60*24
+        elif 'hour' in tiempo:
+            (numero, chao) = tiempo.split()
+            segundos += int(numero)*60*60
+        elif 'minute' in tiempo:
+            (numero, chao) = tiempo.split()
+            segundos += int(numero)*60
+        elif 'year' in tiempo:
+            (numero, chao) = tiempo.split()
+            segundos += int(numero)*60*60*24*365
+    dict_device[hostname] = segundos
+    #metodo2 by dmm
+    
+print dict_device
